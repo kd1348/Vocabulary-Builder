@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Builder</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="script" href="/static/script.js">
+</head>
+<body>
+    <div class="container">  
+        <h1>Vocabulary Builder</h1>      
+        <div class="quiz-box">
+            <div class="question">{{ question | safe }}<br></div>
+            <div class="options">
+                <button class="option option-red">{{ a }}</button>
+                <button class="option option-blue">{{ b }}</button>
+                <button class="option option-green">{{ c }}</button>
+                <button class="option option-yellow">{{ d }}</button>
+                <button class="option option-yellow">{{ e }}</button>
+            </div>
+        </div>
+        <div class="actions">
+            <h2 id = 'test'></h2>
+            <button class="next action">Next</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+var streak = localStorage.getItem('streak') ? parseInt(localStorage.getItem('streak')) : 0;
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Document loaded');
+    const correctAnswer = "{{ correct }}";
+    const options = Array.from(document.querySelectorAll('.option'));
+    updateStreakDisplay();
+
+    options.forEach(option => {
+        option.addEventListener('click', () => {
+            console.log('Button clicked:', option.textContent);
+
+            options.forEach(btn => btn.disabled = true);
+            if (option.textContent === correctAnswer) {
+                option.style.backgroundColor = '#2ecc71'; // green for correct answer
+                streak++;
+                console.log(`Streak: ${streak}`);
+            } else {
+                option.style.backgroundColor = '#e74c3c'; // red for selected incorrect answer
+                streak = 0;
+                console.log(`Streak reset: ${streak}`);
+            }
+            options.forEach(btn => {
+                if (btn !== option) {
+                    if (btn.textContent === correctAnswer) {
+                        btn.style.backgroundColor = '#2ecc71'; // green for correct answer
+                    } else {
+                        btn.style.backgroundColor = '#808080'; // gray for other options
+                    }
+                }
+            });
+            localStorage.setItem('streak', streak);
+            updateStreakDisplay();
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const nextButtons = document.querySelectorAll('.next');
+    nextButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            location.reload();
+        });
+    });
+});
+
+function updateStreakDisplay() {
+    document.getElementById("test").innerHTML = `Current Streak: ${streak}`;
+}
+
+        </script>
+        
+</body>
+</html>
