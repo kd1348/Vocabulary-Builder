@@ -1,0 +1,11 @@
+-- Apple Script For 1 Click Activation:
+
+
+tell application "Terminal"
+	do script "python3 /Users/KyleDonovan_1/Desktop/Python/Vocabulary-Builder/Flask/run.py"
+end tell
+delay 3
+tell application "Google Chrome"
+	open location "http://127.0.0.1:5000/"
+	activate
+end tell
